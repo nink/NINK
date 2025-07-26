@@ -20,11 +20,11 @@ A next-gen input device with:
 
 | Component            | Description                                      |
 |----------------------|--------------------------------------------------|
-| **Display**           | 292 × 113 mm (12.3") touchscreen, 2560×720       |
+| **Display**           | 62 Fully programable LED keys and a touch bar   |
 | **Input**             | Transparent capacitive touch matrix overlay     |
 | **Platform**          | Raspberry Pi 4/5, mini PC, or embedded system   |
 | **Connectivity**      | USB + HDMI, or fully integrated ARM SBC         |
-| **Materials**         | Acrylic/PC housing with conductive key islands  |
+
 
 ---
 
