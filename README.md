@@ -1,6 +1,6 @@
 # ⌨️ NINK – Next INteractive Keyboard
 
-**NINK** (Next INteractive Keyboard) is a fully dynamic, full-color, touch-enabled keyboard powered by programable interactive keyboard. It reimagines human–computer interaction by replacing traditional mechanical keycaps with a transparent, capacitive overlay above a full-screen display.
+**NINK** (Next INteractive Keyboard) is a fully dynamic, full-color, touch-enabled keyboard powered by programable interface. It reimagines human–computer interaction by replacing traditional mechanical keycaps with a transparent, capacitive overlay above a full-screen display.
 
 Originally conceived for retro emulation, NINK now supports a broad range of applications: productivity, gaming, AI-driven interaction, accessibility, and programmable control panels.
 
@@ -35,7 +35,7 @@ A next-gen input device with:
 | UI rendering     | Python + Pygame / Kivy / LVGL |
 | Touch input      | Capacitive HID / multitouch   |
 | Layout engine    | JSON-based key map + state    |
-| AI integration   | OpenAI GPT via REST API       |
+| AI integration   | AI integration via REST API   |
 | Emulator control | RetroPie / Batocera / CLI     |
 
 ---
@@ -45,7 +45,7 @@ A next-gen input device with:
 - [x] Per-key pixel mapping (15U × 5-row layout)
 - [x] Full 2560×720 key rendering grid
 - [ ] Touch key detection and remapping
-- [ ] Dynamic layout switching (e.g. ZX Spectrum, C64, QWERTY, gaming)
+- [ ] Dynamic layout switching (including ZX Spectrum, ZX81, C64, QWERTY, gaming)
 - [ ] ChatGPT integration for "Generate & Play" game sessions
 - [ ] Configurable key zones via overlay files
 - [ ] Low-latency key feedback / audio / animation
