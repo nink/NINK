@@ -9,10 +9,12 @@ Originally conceived for retro emulation, NINK now supports a broad range of app
 ## 🎯 Vision
 
 A next-gen input device with:
-- **Dynamic on-screen keyboard** that changes per application or context
-- **Capacitive transparent key overlay** to maintain tactile feedback
-- Full **visual customization** — colors, icons, animations
+- **Dynamic Interactive keyboard** that changes per application or context
+- **All keys have programable LED Key Caps** 
+- **visual customization** — colors, icons, animations
+- **Built in emulation** Keyboard replicates original key layouts of historical computers
 - AI integration to generate layouts and full emulator keypad layouts
+- 
 
 ---
 
