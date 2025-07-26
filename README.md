@@ -64,7 +64,8 @@ A next-gen input device with:
 
 ## 📷 Concept
 
-![NINK Concept Image](images/nink-render.png)
+## Licence
+To Be Determined. All rights reserved for now
 
 ---
 
