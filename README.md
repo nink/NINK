@@ -1,8 +1,8 @@
 # ⌨️ NINK – Next INteractive Keyboard
 
-**NINK** (Next INteractive Keyboard) is a fully dynamic, full-color, touch-enabled keyboard powered by programable interface. It reimagines human–computer interaction by replacing traditional mechanical keycaps with a transparent, capacitive overlay above a full-screen display.
+**NINK** (Next INteractive Keyboard) is a fully dynamic, full-color, interactive keyboard powered by programable interface. It reimagines human–computer interaction by replacing traditional static keycaps with a fully programable displays.
 
-Originally conceived for retro emulation, NINK now supports a broad range of applications: productivity, gaming, AI-driven interaction, accessibility, and programmable control panels.
+Originally conceived for retro emulation, NINK now supports a broad range of applications: emulation, productivity, gaming, AI-driven interaction, accessibility, and programmable control panels.
 
 ---
 
@@ -13,7 +13,7 @@ A next-gen input device with:
 - **All keys have programable LED Key Caps** 
 - **visual customization** — colors, icons, animations
 - **Built in emulation** Keyboard replicates original key layouts of historical computers
-- AI integration to generate layouts and full emulator keypad layouts
+- **AI integration** AI generates layouts and full emulator keypad layouts
 - 
 
 ---
@@ -22,7 +22,7 @@ A next-gen input device with:
 
 | Component            | Description                                      |
 |----------------------|--------------------------------------------------|
-| **Display**           | 62 Fully programable LED keys and a touch bar   |
+| **Keyboard**          | 62 Fully programable LED keys and a touch bar   |
 | **Input**             | Transparent capacitive touch matrix overlay     |
 | **Platform**          | Raspberry Pi 4/5, mini PC, or embedded system   |
 | **Connectivity**      | USB + HDMI, or fully integrated ARM SBC         |
@@ -45,12 +45,11 @@ A next-gen input device with:
 ## 🚀 Features (Planned / In Progress)
 
 - [x] Per-key pixel mapping (15U × 5-row layout)
-- [x] Full 2560×720 key rendering grid
+- [x] Full Length interactive touchpad 
 - [ ] Touch key detection and remapping
 - [ ] Dynamic layout switching (including ZX Spectrum, ZX81, C64, QWERTY, gaming)
-- [ ] ChatGPT integration for "Generate & Play" game sessions
+- [ ] AI integration for "Generate Keyboard" layouts 
 - [ ] Configurable key zones via overlay files
-- [ ] Low-latency key feedback / audio / animation
 
 ---
 
