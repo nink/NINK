@@ -1,1 +1,325 @@
 https://claude.ai/public/artifacts/b8cf6760-9fab-407d-8ec6-7b37b0fce9e6
+
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Touch Keyboard</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+        .keyboard-container {
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="keyboard-container"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const VirtualKeyboard = () => {
+            const [text, setText] = useState('');
+            const [isShift, setIsShift] = useState(false);
+            const [isCapsLock, setIsCapsLock] = useState(false);
+
+            // Keyboard layout - QWERTY
+            const keyRows = [
+                ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+                ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']'],
+                ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'"],
+                ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/']
+            ];
+
+            // Shift variants for keys
+            const shiftMap = {
+                '1': '!', '2': '@', '3': '#', '4': '$', '5': '%',
+                '6': '^', '7': '&', '8': '*', '9': '(', '0': ')',
+                '-': '_', '=': '+', '[': '{', ']': '}',
+                ';': ':', "'": '"', ',': '<', '.': '>', '/': '?'
+            };
+
+            const handleKeyPress = (key) => {
+                let keyToAdd = key;
+                
+                // Apply shift/caps lock transformations
+                if (isShift || isCapsLock) {
+                    if (shiftMap[key]) {
+                        keyToAdd = shiftMap[key];
+                    } else if (key.match(/[a-z]/)) {
+                        keyToAdd = key.toUpperCase();
+                    }
+                }
+                
+                setText(prev => prev + keyToAdd);
+                
+                // Reset shift after key press (but not caps lock)
+                if (isShift && !isCapsLock) {
+                    setIsShift(false);
+                }
+            };
+
+            const handleBackspace = () => {
+                setText(prev => prev.slice(0, -1));
+            };
+
+            const handleSpace = () => {
+                setText(prev => prev + ' ');
+            };
+
+            const handleEnter = () => {
+                setText(prev => prev + '\n');
+            };
+
+            const handleShift = () => {
+                setIsShift(!isShift);
+            };
+
+            const handleCapsLock = () => {
+                setIsCapsLock(!isCapsLock);
+                setIsShift(false);
+            };
+
+            const handleClear = () => {
+                setText('');
+            };
+
+            const KeyButton = ({ children, onClick, className = "", isActive = false }) => (
+                React.createElement('button', {
+                    onClick: onClick,
+                    className: `
+                        bg-gray-100 hover:bg-gray-200 active:bg-gray-300 
+                        border border-gray-300 rounded-lg shadow-sm
+                        text-gray-800 font-medium select-none
+                        transition-colors duration-75
+                        ${className}
+                        ${isActive ? 'bg-blue-200 border-blue-400' : ''}
+                    `,
+                    style: { touchAction: 'manipulation' }
+                }, children)
+            );
+
+            return React.createElement('div', {
+                className: "flex flex-col h-screen bg-gray-50 p-4 gap-4"
+            }, [
+                // Text Display Area
+                React.createElement('div', {
+                    key: 'display',
+                    className: "flex-1 bg-white border-2 border-gray-300 rounded-lg p-4 shadow-inner"
+                }, [
+                    React.createElement('div', {
+                        key: 'textarea-container',
+                        className: "w-full h-full"
+                    }, [
+                        React.createElement('textarea', {
+                            key: 'textarea',
+                            value: text,
+                            onChange: (e) => setText(e.target.value),
+                            className: "w-full h-full resize-none border-none outline-none text-lg leading-relaxed",
+                            placeholder: "Start typing...",
+                            style: { fontFamily: 'monospace' }
+                        })
+                    ])
+                ]),
+
+                // Virtual Keyboard
+                React.createElement('div', {
+                    key: 'keyboard',
+                    className: "bg-gray-200 rounded-lg p-4 shadow-lg"
+                }, [
+                    // Number/Symbol Row
+                    React.createElement('div', {
+                        key: 'num-row',
+                        className: "grid grid-cols-12 gap-1 mb-2"
+                    }, keyRows[0].map((key, index) => 
+                        React.createElement(KeyButton, {
+                            key: `num-${index}`,
+                            onClick: () => handleKeyPress(key),
+                            className: "h-12 text-sm"
+                        }, React.createElement('div', {
+                            className: "flex flex-col items-center"
+                        }, [
+                            React.createElement('span', {
+                                key: 'shift-char',
+                                className: "text-xs text-gray-600"
+                            }, shiftMap[key] || key.toUpperCase()),
+                            React.createElement('span', {
+                                key: 'main-char'
+                            }, key)
+                        ]))
+                    )),
+
+                    // First Letter Row (QWERTY)
+                    React.createElement('div', {
+                        key: 'row1',
+                        className: "flex gap-1 mb-2"
+                    }, [
+                        React.createElement(KeyButton, {
+                            key: 'clear',
+                            onClick: handleClear,
+                            className: "h-12 px-3 text-xs bg-red-100 hover:bg-red-200"
+                        }, "Clear"),
+                        React.createElement('div', {
+                            key: 'row1-keys',
+                            className: "grid grid-cols-12 gap-1 flex-1"
+                        }, keyRows[1].map((key, index) =>
+                            React.createElement(KeyButton, {
+                                key: `row1-${index}`,
+                                onClick: () => handleKeyPress(key),
+                                className: "h-12"
+                            }, (isShift || isCapsLock) ? key.toUpperCase() : key)
+                        )),
+                        React.createElement(KeyButton, {
+                            key: 'backspace',
+                            onClick: handleBackspace,
+                            className: "h-12 px-4 text-xs bg-orange-100 hover:bg-orange-200"
+                        }, "⌫")
+                    ]),
+
+                    // Second Letter Row (ASDF)
+                    React.createElement('div', {
+                        key: 'row2',
+                        className: "flex gap-1 mb-2"
+                    }, [
+                        React.createElement(KeyButton, {
+                            key: 'caps',
+                            onClick: handleCapsLock,
+                            className: "h-12 px-3 text-xs",
+                            isActive: isCapsLock
+                        }, "Caps"),
+                        React.createElement('div', {
+                            key: 'row2-keys',
+                            className: "grid grid-cols-11 gap-1 flex-1"
+                        }, keyRows[2].map((key, index) =>
+                            React.createElement(KeyButton, {
+                                key: `row2-${index}`,
+                                onClick: () => handleKeyPress(key),
+                                className: "h-12"
+                            }, React.createElement('div', {
+                                className: "flex flex-col items-center"
+                            }, [
+                                shiftMap[key] && React.createElement('span', {
+                                    key: 'shift-variant',
+                                    className: "text-xs text-gray-600"
+                                }, shiftMap[key]),
+                                React.createElement('span', {
+                                    key: 'main-char'
+                                }, (isShift || isCapsLock) && key.match(/[a-z]/) ? key.toUpperCase() : key)
+                            ]))
+                        )),
+                        React.createElement(KeyButton, {
+                            key: 'enter',
+                            onClick: handleEnter,
+                            className: "h-12 px-4 text-xs bg-green-100 hover:bg-green-200"
+                        }, "Enter")
+                    ]),
+
+                    // Third Letter Row (ZXCV)
+                    React.createElement('div', {
+                        key: 'row3',
+                        className: "flex gap-1 mb-2"
+                    }, [
+                        React.createElement(KeyButton, {
+                            key: 'shift-left',
+                            onClick: handleShift,
+                            className: "h-12 px-4 text-xs",
+                            isActive: isShift
+                        }, "Shift"),
+                        React.createElement('div', {
+                            key: 'row3-keys',
+                            className: "grid grid-cols-10 gap-1 flex-1"
+                        }, keyRows[3].map((key, index) =>
+                            React.createElement(KeyButton, {
+                                key: `row3-${index}`,
+                                onClick: () => handleKeyPress(key),
+                                className: "h-12"
+                            }, React.createElement('div', {
+                                className: "flex flex-col items-center"
+                            }, [
+                                shiftMap[key] && React.createElement('span', {
+                                    key: 'shift-variant',
+                                    className: "text-xs text-gray-600"
+                                }, shiftMap[key]),
+                                React.createElement('span', {
+                                    key: 'main-char'
+                                }, (isShift || isCapsLock) && key.match(/[a-z]/) ? key.toUpperCase() : key)
+                            ]))
+                        )),
+                        React.createElement(KeyButton, {
+                            key: 'shift-right',
+                            onClick: handleShift,
+                            className: "h-12 px-4 text-xs",
+                            isActive: isShift
+                        }, "Shift")
+                    ]),
+
+                    // Space Bar Row
+                    React.createElement('div', {
+                        key: 'space-row',
+                        className: "flex gap-1"
+                    }, [
+                        React.createElement(KeyButton, {
+                            key: 'backslash-left',
+                            onClick: () => handleKeyPress('\\'),
+                            className: "h-12 px-3"
+                        }, "\\"),
+                        React.createElement(KeyButton, {
+                            key: 'space',
+                            onClick: handleSpace,
+                            className: "h-12 flex-1 text-xs"
+                        }, "Space"),
+                        React.createElement(KeyButton, {
+                            key: 'backslash-right',
+                            onClick: () => handleKeyPress('\\'),
+                            className: "h-12 px-3"
+                        }, "\\")
+                    ])
+                ]),
+
+                // Status Bar
+                React.createElement('div', {
+                    key: 'status',
+                    className: "flex justify-between items-center text-sm text-gray-600 px-2"
+                }, [
+                    React.createElement('div', {
+                        key: 'char-count'
+                    }, `Characters: ${text.length}`),
+                    React.createElement('div', {
+                        key: 'status-indicators',
+                        className: "flex gap-4"
+                    }, [
+                        React.createElement('span', {
+                            key: 'caps-status',
+                            className: isCapsLock ? 'text-blue-600 font-bold' : ''
+                        }, isCapsLock ? 'CAPS ON' : 'caps off'),
+                        React.createElement('span', {
+                            key: 'shift-status',
+                            className: isShift ? 'text-blue-600 font-bold' : ''
+                        }, isShift ? 'SHIFT ON' : 'shift off')
+                    ])
+                ])
+            ]);
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(VirtualKeyboard));
+    </script>
+</body>
+</html>
