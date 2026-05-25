@@ -1,7 +1,7 @@
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://xjaqmmkkdyynggawqxec.supabase.co';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const CRON_SECRET = process.env.CRON_SECRET;
-const SOURCE_URL = 'https://www.gianttiger.com/pages/flyer';
+const SOURCE_URL = 'https://www.gianttiger.com/collections/flyers-and-deals?view=flyers';
 
 function reply(res, status, data) {
   res.statusCode = status;
