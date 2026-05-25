@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 const SUPABASE_URL =
   process.env.SUPABASE_URL || "https://xjaqmmkkdyynggawqxec.supabase.co";
 
@@ -24,6 +26,19 @@ function clean(value) {
 function toPrice(value) {
   const match = String(value || "").match(/\$?\s*(\d+(?:\.\d{1,2})?)/);
   return match ? Number(match[1]) : null;
+}
+
+function makeIsoPlusDays(days) {
+  return new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+}
+
+function makeFingerprint(rows) {
+  const payload = rows
+    .map((row) => `${row.product_name}|${row.current_price}|${row.regular_price || ""}`)
+    .sort()
+    .join("\n");
+
+  return crypto.createHash("sha256").update(payload).digest("hex");
 }
 
 function walk(obj, rows) {
@@ -60,20 +75,33 @@ function walk(obj, rows) {
       brand: clean(obj.brand || obj.brandName || ""),
       current_price: price,
       regular_price: toPrice(
-        JSON.stringify(obj.wasPrice || obj.regularPrice || obj.listPrice || "")
+        JSON.stringify(
+          obj.wasPrice ||
+            obj.regularPrice ||
+            obj.listPrice ||
+            obj.priceInfo?.wasPrice ||
+            ""
+        )
       ),
-      unit_price: clean(obj.unitPrice || obj.pricePerUnit || ""),
-      category: clean(obj.category || obj.categoryName || obj.department || ""),
+      unit_price: clean(obj.unitPrice || obj.pricePerUnit || obj.priceInfo?.unitPrice || ""),
+      category: clean(
+        obj.category?.path?.map((p) => p.name).join(" > ") ||
+          obj.category ||
+          obj.categoryName ||
+          obj.department ||
+          ""
+      ),
       image_url: clean(
         obj.imageUrl ||
           obj.thumbnailUrl ||
           obj.productImageUrl ||
+          obj.imageInfo?.thumbnailUrl ||
           obj.image ||
           ""
       ),
       source_url: SOURCE_URL,
       raw: {
-        parser_version: "product-json-v1",
+        parser_version: "product-json-v2",
         source_object: obj,
       },
     });
@@ -121,38 +149,56 @@ function parseProductDeals(html) {
     .slice(0, 300);
 }
 
-function fallbackPriceRows(html) {
-  const prices = html.match(/\$\s*\d+(?:\.\d{1,2})?/g) || [];
-
-  return prices
-    .map((price, index) => ({
-      retailer: "Walmart Canada",
-      product_name: `Walmart flyer detected price ${index + 1}`,
-      current_price: toPrice(price),
-      source_url: SOURCE_URL,
-      raw: {
-        detected_price: price,
-        parser_version: "fallback-price-v1",
-      },
-    }))
-    .filter((row) => row.current_price && row.current_price > 0)
-    .slice(0, 50);
-}
-
-async function insertRows(rows) {
-  const inserted = await fetch(`${SUPABASE_URL}/rest/v1/flyer_deals`, {
-    method: "POST",
+async function supabaseFetch(path, options = {}) {
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...options,
     headers: {
       apikey: SUPABASE_KEY,
       authorization: `Bearer ${SUPABASE_KEY}`,
       "content-type": "application/json",
+      ...(options.headers || {}),
     },
-    body: JSON.stringify(rows),
   });
 
-  if (!inserted.ok) {
-    throw new Error(await inserted.text());
+  const text = await response.text();
+  if (!response.ok) throw new Error(text);
+
+  try {
+    return JSON.parse(text);
+  } catch (_) {
+    return null;
   }
+}
+
+async function getLatestWalmartFingerprint() {
+  const rows = await supabaseFetch(
+    "flyer_deals?select=raw,product_name&retailer=eq.Walmart%20Canada&order=scraped_at.desc&limit=50"
+  );
+
+  const realRow = (rows || []).find(
+    (row) => !String(row.product_name || "").startsWith("Walmart flyer detected price")
+  );
+
+  return realRow?.raw?.flyer_fingerprint || null;
+}
+
+async function expireActiveWalmartRows(nowIso) {
+  await supabaseFetch(
+    `flyer_deals?retailer=eq.Walmart%20Canada&valid_to=gte.${encodeURIComponent(nowIso)}`,
+    {
+      method: "PATCH",
+      headers: { prefer: "return=minimal" },
+      body: JSON.stringify({ valid_to: nowIso }),
+    }
+  );
+}
+
+async function insertRows(rows) {
+  await supabaseFetch("flyer_deals", {
+    method: "POST",
+    headers: { prefer: "return=minimal" },
+    body: JSON.stringify(rows),
+  });
 }
 
 module.exports = async function handler(req, res) {
@@ -163,7 +209,10 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  if (getToken(req) !== CRON_SECRET) {
+  const authorizedByToken = getToken(req) === CRON_SECRET;
+  const authorizedByVercelCron = req.headers["user-agent"] === "vercel-cron/1.0";
+
+  if (!authorizedByToken && !authorizedByVercelCron) {
     return reply(res, 401, {
       ok: false,
       error: "Unauthorized",
@@ -199,27 +248,62 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    let rows = parseProductDeals(html);
-    let parser = "product-json-v1";
+    const parsedRows = parseProductDeals(html);
 
-    if (rows.length === 0) {
-      rows = fallbackPriceRows(html);
-      parser = "fallback-price-v1";
+    if (parsedRows.length === 0) {
+      return reply(res, 200, {
+        ok: true,
+        source: SOURCE_URL,
+        parser: "product-json-v2",
+        inserted: 0,
+        message: "No product rows parsed. Existing active deals were not changed.",
+      });
     }
 
-    if (rows.length > 0) {
-      await insertRows(rows);
+    const nowIso = new Date().toISOString();
+    const validToIso = makeIsoPlusDays(7);
+    const fingerprint = makeFingerprint(parsedRows);
+    const previousFingerprint = await getLatestWalmartFingerprint();
+
+    if (fingerprint === previousFingerprint) {
+      return reply(res, 200, {
+        ok: true,
+        source: SOURCE_URL,
+        changed: false,
+        inserted: 0,
+        fingerprint,
+        message: "Walmart flyer data has not changed. No duplicate rows inserted.",
+      });
     }
+
+    const rows = parsedRows.map((row) => ({
+      ...row,
+      valid_from: nowIso,
+      valid_to: validToIso,
+      raw: {
+        ...row.raw,
+        flyer_fingerprint: fingerprint,
+        detected_at: nowIso,
+      },
+    }));
+
+    await expireActiveWalmartRows(nowIso);
+    await insertRows(rows);
 
     return reply(res, 200, {
       ok: true,
       source: SOURCE_URL,
-      parser,
+      changed: true,
+      parser: "product-json-v2",
+      fingerprint,
+      valid_from: nowIso,
+      valid_to: validToIso,
       inserted: rows.length,
       sample: rows.slice(0, 10).map((row) => ({
         product_name: row.product_name,
         brand: row.brand,
         current_price: row.current_price,
+        regular_price: row.regular_price,
         unit_price: row.unit_price,
       })),
     });
