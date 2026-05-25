@@ -3,6 +3,42 @@
     {
       "path": "/api/ingest-walmart",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/ingest-flipp?store=foodbasics",
+      "schedule": "0 8 * * 4"
+    },
+    {
+      "path": "/api/ingest-flipp?store=sobeys",
+      "schedule": "5 8 * * 4"
+    },
+    {
+      "path": "/api/ingest-flipp?store=metro",
+      "schedule": "10 8 * * 4"
+    },
+    {
+      "path": "/api/ingest-flipp?store=nofrills",
+      "schedule": "15 8 * * 4"
+    },
+    {
+      "path": "/api/ingest-flipp?store=freshco",
+      "schedule": "20 8 * * 4"
+    },
+    {
+      "path": "/api/ingest-flipp?store=superstore",
+      "schedule": "25 8 * * 4"
+    },
+    {
+      "path": "/api/ingest-flipp?store=gianttiger",
+      "schedule": "30 8 * * 4"
+    },
+    {
+      "path": "/api/ingest-flipp?store=farmboy",
+      "schedule": "35 8 * * 4"
+    },
+    {
+      "path": "/api/ingest-flipp?store=zehrs",
+      "schedule": "40 8 * * 4"
     }
   ]
 }
