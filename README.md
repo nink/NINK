@@ -12,7 +12,7 @@ This repo is **not** the DealCheck app. The shopper-facing product (deals, barco
 |------|-------------|
 | **Brand / marketing site** | Splash page at nink.com — may change over time as the Nink brand evolves |
 | **Flyer ingestion APIs** | Serverless endpoints that pull grocery flyer data into Supabase |
-| **Scheduled jobs** | Vercel cron triggers daily Walmart ingest (see `vercel.json`) |
+| **Scheduled jobs** | Vercel cron ingests Canadian grocery flyers via Flipp (Thursdays) + Walmart daily |
 
 `nink.com` and DealCheck are intentionally **separate** so the main site can morph (new positioning, landing pages, etc.) without touching the DealCheck prototype.
 
@@ -23,10 +23,9 @@ This repo is **not** the DealCheck app. The shopper-facing product (deals, barco
 | URL | Purpose |
 |-----|---------|
 | https://www.nink.com | Marketing / splash site (`index.html`, `style.css`) |
-| https://www.nink.com/api/ingest-walmart | Walmart flyer ingest |
-| https://www.nink.com/api/ingest-gianttiger | Giant Tiger flyer ingest |
-| https://www.nink.com/api/ingest-foodbasics | Food Basics flyer ingest |
-| https://www.nink.com/api/debug-foodbasics | Food Basics debug / diagnostics |
+| https://www.nink.com/api/ingest-flipp?store=foodbasics | Auto ingest (Food Basics + other `store=` keys) |
+| https://www.nink.com/api/ingest-foodbasics | Same as Flipp Food Basics (alias) |
+| https://www.nink.com/api/ingest-walmart | Walmart direct scrape |
 
 Ingest endpoints require `CRON_SECRET` (Vercel env var) via `?token=...` or `Authorization: Bearer ...`.
 
@@ -68,6 +67,7 @@ NINK/
   - `CRON_SECRET` — protects ingest URLs
   - `SUPABASE_URL` — Supabase project URL
   - `SUPABASE_SERVICE_ROLE_KEY` — write access for ingest scripts
+  - `FLIPP_POSTAL_CODE` — your market postal code (e.g. `L4N6B7`, no space)
 
 Do not commit secrets to this repo.
 
