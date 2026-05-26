@@ -39,6 +39,10 @@
     {
       "path": "/api/ingest-flipp?store=zehrs",
       "schedule": "40 8 * * 4"
+    },
+    {
+      "path": "/api/ingest-flipp?store=loblaws",
+      "schedule": "45 8 * * 4"
     }
   ]
 }

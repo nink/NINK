@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
   if (!keys.length) {
     return reply(res, 400, {
       ok: false,
-      error: 'Pass ?store=foodbasics (or sobeys, metro, nofrills, freshco, superstore, gianttiger, walmart, farmboy, zehrs) or ?all=1'
+      error: 'Pass ?store=foodbasics (or sobeys, metro, nofrills, freshco, superstore, gianttiger, walmart, farmboy, zehrs, loblaws) or ?all=1'
     });
   }
 
