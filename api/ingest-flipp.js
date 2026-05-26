@@ -1,5 +1,6 @@
 const { ingestStore, STORE_CONFIG } = require('../lib/flipp-client');
 const { expireActiveDeals, insertDeals, SUPABASE_KEY } = require('../lib/flyer-db');
+const { runFlyerEnrichmentAfterIngest } = require('../lib/dealcheck-enrichment');
 
 const CRON_SECRET = process.env.CRON_SECRET;
 
@@ -52,6 +53,18 @@ module.exports = async function handler(req, res) {
       await expireActiveDeals(result.retailer, now);
       await insertDeals(result.deals);
 
+      let enrichment = { skipped: true };
+      try {
+        enrichment = await runFlyerEnrichmentAfterIngest({
+          retailer: result.retailer,
+          onlyMissing: true,
+          activeOnly: true,
+          maxBatches: 10
+        });
+      } catch (error) {
+        enrichment = { ok: false, error: error.message };
+      }
+
       results.push({
         ok: true,
         store: key,
@@ -59,6 +72,7 @@ module.exports = async function handler(req, res) {
         flyer: result.flyer,
         parsed: result.parsed,
         inserted: result.deals.length,
+        enrichment,
         sample: result.deals.slice(0, 5).map((d) => ({
           product_name: d.product_name,
           current_price: d.current_price,
