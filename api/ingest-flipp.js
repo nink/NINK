@@ -1,6 +1,6 @@
 const { ingestStore, STORE_CONFIG } = require('../lib/flipp-client');
 const { expireActiveDeals, insertDeals, SUPABASE_KEY } = require('../lib/flyer-db');
-const { runFlyerEnrichmentAfterIngest, runFlyerLocalImagesAfterIngest } = require('../lib/dealcheck-enrichment');
+const { runFlyerEnrichmentAfterIngest, runFlyerLocalImagesAfterIngest, runFlyerDedupeAfterIngest } = require('../lib/dealcheck-enrichment');
 
 const CRON_SECRET = process.env.CRON_SECRET;
 
@@ -76,6 +76,13 @@ module.exports = async function handler(req, res) {
         localImages = { ok: false, error: error.message };
       }
 
+      let dedupe = { skipped: true };
+      try {
+        dedupe = await runFlyerDedupeAfterIngest({ retailer: result.retailer });
+      } catch (error) {
+        dedupe = { ok: false, error: error.message };
+      }
+
       results.push({
         ok: true,
         store: key,
@@ -85,6 +92,7 @@ module.exports = async function handler(req, res) {
         inserted: result.deals.length,
         enrichment,
         localImages,
+        dedupe,
         sample: result.deals.slice(0, 5).map((d) => ({
           product_name: d.product_name,
           current_price: d.current_price,

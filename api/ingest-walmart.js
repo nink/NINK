@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://xjaqmmkkdyynggawqxec.supabase.co";
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const CRON_SECRET = process.env.CRON_SECRET;
-const { runFlyerEnrichmentAfterIngest, runFlyerLocalImagesAfterIngest } = require("../lib/dealcheck-enrichment");
+const { runFlyerEnrichmentAfterIngest, runFlyerLocalImagesAfterIngest, runFlyerDedupeAfterIngest } = require("../lib/dealcheck-enrichment");
 const SOURCE_URL = "https://www.walmart.ca/en/shop/weekly-flyer-features/6000196190101";
 
 function reply(res, status, data) {
@@ -161,7 +161,14 @@ module.exports = async function handler(req, res) {
       localImages = { ok: false, error: error.message };
     }
 
-    return reply(res, 200, { ok: true, changed: true, parser: "product-json-v3", inserted: rows.length, fingerprint: fp, valid_from: now, valid_to: validTo, enrichment, localImages, sample: rows.slice(0, 10) });
+    let dedupe = { skipped: true };
+    try {
+      dedupe = await runFlyerDedupeAfterIngest({ retailer: "Walmart Canada" });
+    } catch (error) {
+      dedupe = { ok: false, error: error.message };
+    }
+
+    return reply(res, 200, { ok: true, changed: true, parser: "product-json-v3", inserted: rows.length, fingerprint: fp, valid_from: now, valid_to: validTo, enrichment, localImages, dedupe, sample: rows.slice(0, 10) });
   } catch (error) {
     return reply(res, 500, { ok: false, error: error.message });
   }
