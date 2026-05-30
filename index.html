@@ -13,7 +13,7 @@
     <nav>
       <a href="#about">About</a>
       <a href="#features">Features</a>
-      <a href="https://dealcheck.nink.com">Open DealCheck</a>
+      <a href="#access">Early access</a>
     </nav>
   </header>
 
@@ -24,13 +24,31 @@
         <h1>Save Money.<br><span>Think Nink.</span></h1>
         <p class="lead">Nink helps you scan, compare, and save on groceries, so you know whether a deal is actually a deal.</p>
         <div class="coming-soon">
-          <strong>Coming soon 🚀</strong>
-          <p>We are building grocery price intelligence for people who want to shop smarter without wasting time.</p>
+          <strong>Early access</strong>
+          <p>Register with your email to get a confirmation link. Once verified, we will send you to DealCheck.</p>
         </div>
-        <div class="actions">
-          <a class="button primary" href="https://dealcheck.nink.com">Open DealCheck Prototype</a>
-          <a class="button secondary" href="mailto:peter_finn@hotmail.com?subject=Nink early access">Get early access</a>
-        </div>
+
+        <section id="access" class="waitlist-panel" aria-labelledby="waitlist-heading">
+          <h2 id="waitlist-heading">Request access</h2>
+          <form id="waitlist-form" class="waitlist-form" novalidate>
+            <div class="field-row">
+              <label>
+                First name
+                <input type="text" name="first_name" autocomplete="given-name" required maxlength="80">
+              </label>
+              <label>
+                Last name
+                <input type="text" name="last_name" autocomplete="family-name" required maxlength="80">
+              </label>
+            </div>
+            <label>
+              Email
+              <input type="email" name="email" autocomplete="email" required maxlength="254">
+            </label>
+            <button class="button primary" type="submit">Send confirmation email</button>
+          </form>
+          <p id="waitlist-status" class="waitlist-status" hidden role="status"></p>
+        </section>
       </div>
 
       <div class="hero-visual" aria-label="Nink product preview">
@@ -85,5 +103,7 @@
     <p>Save money. Live better.</p>
     <p class="copyright">© 2026 Nink. All rights reserved.</p>
   </footer>
+
+  <script src="register.js"></script>
 </body>
 </html>

@@ -10,7 +10,8 @@ This repo is **not** the DealCheck app. The shopper-facing product (deals, barco
 
 | Role | Description |
 |------|-------------|
-| **Brand / marketing site** | Splash page at nink.com — may change over time as the Nink brand evolves |
+| **Brand / marketing site** | Splash page at nink.com with email-verified early access registration |
+| **Waitlist API** | Collects first name / last name / email, sends confirmation email, redirects to DealCheck after verify |
 | **Flyer ingestion APIs** | Serverless endpoints that pull grocery flyer data into Supabase |
 | **Scheduled jobs** | Flyer ingest crons moved to [dealcheck.nink.com](https://dealcheck.nink.com) (Flipp, Walmart, PC Express) |
 
@@ -46,10 +47,17 @@ DealCheck **reads and writes** flyer deals via ingest APIs on [dealcheck.nink.co
 
 ```
 NINK/
-├── index.html          # nink.com homepage
+├── index.html          # nink.com homepage (early access registration form)
+├── register.js         # Client-side waitlist form handler
 ├── style.css           # Homepage styles
+├── schema-waitlist-registrations-migration.sql
 ├── vercel.json         # Cron schedule + Vercel config
+├── lib/
+│   ├── waitlist-db.js
+│   └── send-verification-email.js
 └── api/
+    ├── waitlist-register.js
+    ├── waitlist-verify.js
     ├── ingest-walmart.js
     ├── ingest-gianttiger.js
     ├── ingest-foodbasics.js
@@ -65,10 +73,22 @@ NINK/
 - **Secrets (Vercel → Settings → Environment Variables):**
   - `CRON_SECRET` — protects ingest URLs
   - `SUPABASE_URL` — Supabase project URL
-  - `SUPABASE_SERVICE_ROLE_KEY` — write access for ingest scripts
-  - `FLIPP_POSTAL_CODE` — your market postal code (e.g. `L4N6B7`, no space)
+  - `SUPABASE_SERVICE_ROLE_KEY` — write access for ingest + waitlist
+  - `RESEND_API_KEY` — sends confirmation emails ([resend.com](https://resend.com))
+  - `RESEND_FROM_EMAIL` — e.g. `Nink <hello@nink.com>` (domain must be verified in Resend)
+  - `SITE_URL` — optional, defaults to `https://www.nink.com`
+  - `DEALCHECK_URL` — optional, defaults to `https://dealcheck.nink.com`
+  - `FLIPP_POSTAL_CODE` — your market postal code (e.g. `M5H2N2`, no space)
 
 Do not commit secrets to this repo.
+
+### Waitlist setup (one-time)
+
+1. Run `schema-waitlist-registrations-migration.sql` in the Supabase SQL editor.
+2. Add `RESEND_API_KEY` and `RESEND_FROM_EMAIL` on the **NINK** Vercel project.
+3. Verify your sending domain in Resend so confirmation emails deliver reliably.
+
+Flow: visitor registers on nink.com → receives email → clicks confirm link → redirected to DealCheck. Direct access to `dealcheck.nink.com` still works for now.
 
 ---
 
