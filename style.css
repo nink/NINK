@@ -53,14 +53,27 @@ a {
 }
 
 .logo {
-  font-size: 34px;
+  font-size: 54px;
   font-weight: 900;
-  color: #fff;
-  letter-spacing: -1px;
+  color: #ff4f9a;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.logo span {
+  font-size: 0.5em;
+}
+
+.site-header .logo {
+  color: #ff4f9a;
 }
 
 .logo.small {
-  font-size: 28px;
+  font-size: 42px;
+}
+
+footer .logo {
+  color: #ff4f9a;
 }
 
 .hero {
@@ -217,12 +230,20 @@ a {
 .hero-visual {
   position: sticky;
   top: 24px;
+  align-self: start;
+}
+
+.promo-shorts-wrap {
+  width: min(100%, 360px);
+  margin: 0 auto;
+  transform-origin: top center;
+  will-change: transform;
+  transition: transform 0.12s ease-out;
 }
 
 .promo-shorts {
   position: relative;
-  width: min(100%, 360px);
-  margin: 0 auto;
+  width: 100%;
   padding-bottom: 177.78%;
   height: 0;
   overflow: hidden;
@@ -240,8 +261,7 @@ a {
 }
 
 .promo-caption {
-  margin: 16px auto 0;
-  max-width: 360px;
+  margin: 16px 0 0;
   text-align: center;
   color: var(--subtle);
   font-size: 15px;
@@ -348,6 +368,10 @@ footer .copyright {
   .hero-visual {
     position: static;
     order: -1;
+  }
+
+  .promo-shorts-wrap {
+    transform: none !important;
   }
 
   .features {
