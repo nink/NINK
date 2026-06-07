@@ -8,7 +8,10 @@ const {
   insertRegistration,
   updatePendingRegistration
 } = require('../lib/waitlist-db');
-const { sendVerificationEmail } = require('../lib/send-verification-email');
+const {
+  sendVerificationEmail,
+  sendSignupNotificationEmail
+} = require('../lib/send-verification-email');
 
 const SITE_URL = (process.env.SITE_URL || 'https://www.nink.com').replace(/\/$/, '');
 
@@ -89,6 +92,17 @@ module.exports = async function handler(req, res) {
     }
 
     await sendVerificationEmail({ to: email, firstName, verifyUrl });
+
+    try {
+      await sendSignupNotificationEmail({
+        firstName,
+        lastName,
+        email,
+        isResubmit: Boolean(existing)
+      });
+    } catch (notifyErr) {
+      console.error('waitlist-register notify error:', notifyErr);
+    }
 
     return reply(res, 200, {
       ok: true,
