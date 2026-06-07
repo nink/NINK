@@ -236,9 +236,6 @@ footer .logo {
 .promo-shorts-wrap {
   width: min(100%, 360px);
   margin: 0 auto;
-  transform-origin: top center;
-  will-change: transform;
-  transition: transform 0.12s ease-out;
 }
 
 .promo-shorts {
@@ -368,10 +365,6 @@ footer .copyright {
   .hero-visual {
     position: static;
     order: -1;
-  }
-
-  .promo-shorts-wrap {
-    transform: none !important;
   }
 
   .features {
