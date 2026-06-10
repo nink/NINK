@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NINK DealCheck — Know if it's really a deal</title>
+  <meta name="description" content="NINK DealCheck helps shoppers scan products, compare flyer prices, check regular prices, and find better grocery deals across retailers.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="NINK DealCheck">
+  <meta property="og:description" content="Scan, compare, and save on groceries. See whether a flyer deal is actually a deal.">
+  <meta property="og:image" content="https://www.nink.com/images/dealcheck-screenshot.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="style.css?v=company-v2">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="/">nink<span>♥</span></a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/dealcheck" class="active">DealCheck</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero hero-product">
+      <div class="hero-copy">
+        <p class="eyebrow">NINK DealCheck</p>
+        <h1>Know if it's <span>really a deal.</span></h1>
+        <p class="lead">DealCheck helps shoppers scan products, compare flyer prices, check regular prices, and find better grocery deals across retailers.</p>
+      </div>
+    </section>
+
+    <section id="what" class="section">
+      <div class="section-inner">
+        <h2>What DealCheck does</h2>
+        <div class="features">
+          <article>
+            <div class="icon">▦</div>
+            <h3>Scan instantly</h3>
+            <p>Scan a barcode and get useful product and price intelligence in seconds.</p>
+          </article>
+          <article>
+            <div class="icon">🏷️</div>
+            <h3>Compare prices</h3>
+            <p>See whether the same product is cheaper at another Canadian grocery store.</p>
+          </article>
+          <article>
+            <div class="icon">$</div>
+            <h3>Spot fake sales</h3>
+            <p>Compare sale prices against regular and historical pricing.</p>
+          </article>
+          <article>
+            <div class="icon">✓</div>
+            <h3>Shop smarter</h3>
+            <p>Save money without giving up quality, health preferences, or convenience.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="different" class="section section-muted">
+      <div class="section-inner">
+        <h2>Why it is different</h2>
+        <p class="section-lead">Most apps show you a flyer price. DealCheck asks a harder question: is this actually a good deal?</p>
+        <ul class="bullet-list">
+          <li>Compares flyer promos to <strong>regular shelf prices</strong>, not just the strikethrough on the flyer.</li>
+          <li>Matches products across <strong>multiple retailers</strong> — same item, different stores.</li>
+          <li>Uses <strong>barcode scans</strong> for ground-truth product identity.</li>
+          <li>Combines <strong>AI extraction</strong> with <strong>human validation</strong> before trusting catalog links.</li>
+          <li>Builds on <strong>historical pricing</strong> and weekly flyer cycles, not one-off screenshots.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="neural" class="section">
+      <div class="section-inner">
+        <h2>How Neural Intelligence improves grocery shopping</h2>
+        <p class="section-body">DealCheck is NINK's first Neural Intelligence product. It connects flyer data, retailer catalogs, barcode identity, and human review into one decision layer — so shoppers get answers they can trust, not just predictions.</p>
+        <div class="ni-pillars">
+          <span>Flyer data</span>
+          <span>Product matching</span>
+          <span>Barcode scans</span>
+          <span>Regular prices</span>
+          <span>AI + human validation</span>
+          <span>Community feedback</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-video">
+      <div class="section-inner video-signup-grid">
+        <div id="video" class="hero-visual" aria-label="DealCheck promo video">
+          <h2>See DealCheck in action</h2>
+          <div class="promo-shorts-wrap">
+            <div class="promo-shorts">
+              <iframe
+                src="https://www.youtube.com/embed/5iUbYX6hrE4?rel=0"
+                title="Nink's DealCheck"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="promo-caption">Compare flyers, search products, and scan barcodes.</p>
+          </div>
+        </div>
+
+        <div id="access" class="waitlist-block">
+          <div class="coming-soon">
+            <strong>Early access</strong>
+            <p>Register with your email to get a confirmation link. Once verified, we will send you access to DealCheck.</p>
+          </div>
+          <section class="waitlist-panel" aria-labelledby="waitlist-heading">
+            <h2 id="waitlist-heading">Request access</h2>
+            <form id="waitlist-form" class="waitlist-form" novalidate>
+              <div class="field-row">
+                <label>
+                  First name
+                  <input type="text" name="first_name" autocomplete="given-name" required maxlength="80">
+                </label>
+                <label>
+                  Last name
+                  <input type="text" name="last_name" autocomplete="family-name" required maxlength="80">
+                </label>
+              </div>
+              <label>
+                Email
+                <input type="email" name="email" autocomplete="email" required maxlength="254">
+              </label>
+              <button class="button primary" type="submit">Send confirmation email</button>
+            </form>
+            <p id="waitlist-status" class="waitlist-status" hidden role="status"></p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <nav class="footer-nav">
+      <a href="/">Home</a>
+      <a href="/dealcheck">DealCheck</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <p class="copyright">© 2026 Nink Inc. All rights reserved.</p>
+  </footer>
+
+  <script src="register.js"></script>
+</body>
+</html>

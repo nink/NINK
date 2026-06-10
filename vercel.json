@@ -1,3 +1,7 @@
 {
-  "crons": []
+  "crons": [],
+  "rewrites": [
+    { "source": "/dealcheck", "destination": "/dealcheck.html" },
+    { "source": "/contact", "destination": "/contact.html" }
+  ]
 }
