@@ -20,7 +20,7 @@ function errorPage(title, message) {
 </head>
 <body>
   <header class="site-header">
-    <a class="logo" href="/">nink<span>♥</span></a>
+    <a class="logo" href="/"><img src="/images/nink-logo.png" alt="NINK" width="121" height="42"></a>
   </header>
   <main class="verify-page">
     <section class="verify-card">
