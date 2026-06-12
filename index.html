@@ -10,7 +10,7 @@
   <meta property="og:description" content="Building trusted intelligence systems where humans, AI, and networks work together.">
   <meta property="og:image" content="https://www.nink.com/images/dealcheck-screenshot.png">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="style.css?v=company-v3">
+  <link rel="stylesheet" href="style.css?v=company-v4">
 </head>
 <body>
   <header class="site-header">
@@ -23,25 +23,97 @@
   </header>
 
   <main>
-    <section id="neural-intelligence" class="section section-first">
+    <section class="landing-hero section-first">
+      <div class="landing-hero-inner">
+        <h1>Neural Intelligent Network Knowledge</h1>
+        <p class="landing-hero-tagline">
+          Generative AI predicts data. <strong>NINK</strong> proves it. We network machine models, human intellect, and physical environments into a single collaborative substrate.
+        </p>
+      </div>
+    </section>
+
+    <section class="network-section" aria-label="NINK network substrate">
+      <div class="network-grid">
+        <div class="network-diagram-wrap">
+          <div class="network-diagram">
+            <svg viewBox="0 0 400 400" role="img" aria-label="Interactive NINK network diagram">
+              <g class="network-lines-muted">
+                <line x1="200" y1="50" x2="330" y2="100" />
+                <line x1="330" y1="100" x2="370" y2="200" />
+                <line x1="370" y1="200" x2="330" y2="300" />
+                <line x1="330" y1="300" x2="200" y2="350" />
+                <line x1="200" y1="350" x2="70" y2="300" />
+                <line x1="70" y1="300" x2="30" y2="200" />
+                <line x1="30" y1="200" x2="70" y2="100" />
+                <line x1="70" y1="100" x2="200" y2="50" />
+                <line x1="200" y1="50" x2="200" y2="350" />
+                <line x1="30" y1="200" x2="370" y2="200" />
+              </g>
+              <g class="network-lines-active">
+                <line x1="200" y1="200" x2="200" y2="50" />
+                <line x1="200" y1="200" x2="330" y2="100" />
+                <line x1="200" y1="200" x2="370" y2="200" />
+                <line x1="200" y1="200" x2="330" y2="300" />
+                <line x1="200" y1="200" x2="200" y2="350" />
+                <line x1="200" y1="200" x2="70" y2="300" />
+                <line x1="200" y1="200" x2="30" y2="200" />
+                <line x1="200" y1="200" x2="70" y2="100" />
+              </g>
+              <g transform="translate(200,200)">
+                <circle r="42" class="network-hub-ring" />
+                <text text-anchor="middle" dominant-baseline="central" class="network-hub-label">NINK</text>
+              </g>
+              <g id="network-nodes"></g>
+            </svg>
+          </div>
+        </div>
+
+        <div id="context-panel" class="context-panel">
+          <p class="context-panel-default">
+            Hover over any network node to observe how multi-modal inputs map into the central NINK substrate.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="section-inner">
-        <h2>What is Neural Intelligence?</h2>
-        <p class="section-lead">Neural Intelligence is the next layer beyond AI. Artificial intelligence can generate answers — Neural Intelligence validates, improves, and learns through a network of people, data, and systems.</p>
-        <div class="ni-compare">
-          <article class="ni-card">
-            <h3>Artificial Intelligence</h3>
-            <p>Predicts. Generates. Suggests.</p>
+        <h2>The Knowledge Synthesis Pipeline</h2>
+        <div class="pipeline-grid">
+          <article class="pipeline-card">
+            <p class="pipeline-step">1. Collection</p>
+            <h4>Multi-Modal Inputs</h4>
+            <p>Harvesting unstructured data telemetry across distributed digital systems, physical environments, and human actions.</p>
           </article>
-          <article class="ni-card ni-card-accent">
-            <h3>Neural Intelligence</h3>
-            <p>Validates. Connects. Learns. Builds trust.</p>
+          <article class="pipeline-card">
+            <p class="pipeline-step">2. Curation</p>
+            <h4>Neural Processing</h4>
+            <p>Utilizing high-speed silicon compute arrays to format, restructure, and cluster incoming information streams.</p>
+          </article>
+          <article class="pipeline-card">
+            <p class="pipeline-step">3. Verification</p>
+            <h4>Deterministic Gating</h4>
+            <p>Passing data loops through algorithmic constraints backed by seamless human-in-the-loop truth verification.</p>
+          </article>
+          <article class="pipeline-card">
+            <p class="pipeline-step">4. Knowledge</p>
+            <h4>Immutable Outcomes</h4>
+            <p>Deploying verified, hallucination-free knowledge indices to drive complex robotics, applications, and enterprise engines.</p>
           </article>
         </div>
-        <p class="section-body">Neural Intelligence combines human knowledge, artificial intelligence, networked validation, real-world data, community feedback, and continuous learning — so decisions get better over time, not just faster.</p>
       </div>
     </section>
 
     <section class="section section-muted">
+      <div class="section-inner">
+        <div class="vacuum-callout">
+          <h3>AI Cannot Exist in a Vacuum</h3>
+          <p>Statistical prediction pipelines lack sensory grounding and structural truth validation. NINK architectural frameworks treat generative artificial models not as independent operators, but as integrated functional endpoints balanced by human domain expertise, physical environments, and robotic actuation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="section-inner">
         <h2>First proof point: Retail</h2>
         <article class="product-spotlight">
@@ -53,7 +125,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section section-muted">
       <div class="section-inner">
         <h2>Future Industry Development</h2>
         <div class="industry-grid">
@@ -93,19 +165,6 @@
       </div>
     </section>
 
-    <section class="section section-muted">
-      <div class="section-inner">
-        <h2>How NINK works</h2>
-        <ol class="steps-list">
-          <li><strong>Collect</strong> real-world signals</li>
-          <li><strong>Connect</strong> scattered knowledge</li>
-          <li><strong>Validate</strong> with humans and systems</li>
-          <li><strong>Learn</strong> from feedback</li>
-          <li><strong>Improve</strong> decisions over time</li>
-        </ol>
-      </div>
-    </section>
-
     <section class="section closing-section">
       <div class="section-inner closing-inner">
         <p class="closing-line">AI creates answers.</p>
@@ -122,5 +181,7 @@
     </nav>
     <p class="copyright">© 2026 Nink Inc. All rights reserved.</p>
   </footer>
+
+  <script src="network.js?v=1" defer></script>
 </body>
 </html>
