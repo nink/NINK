@@ -10,7 +10,7 @@
   <meta property="og:description" content="Building trusted intelligence systems where humans, AI, and networks work together.">
   <meta property="og:image" content="https://www.nink.com/images/dealcheck-screenshot.png">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="style.css?v=company-v5">
+  <link rel="stylesheet" href="style.css?v=company-v4">
 </head>
 <body>
   <header class="site-header">
@@ -32,16 +32,47 @@
       </div>
     </section>
 
-    <section class="section model-diagram-section" aria-label="NINK Think Link model">
-      <div class="section-inner model-diagram-inner">
-        <img
-          src="/images/nink-think-link-model.png"
-          alt="NINK Network model: Think, Link, and certification of Neural Intelligence across industries"
-          width="1400"
-          height="1400"
-          loading="eager"
-          decoding="async"
-        >
+    <section class="network-section" aria-label="NINK network substrate">
+      <div class="network-grid">
+        <div class="network-diagram-wrap">
+          <div class="network-diagram">
+            <svg viewBox="0 0 400 400" role="img" aria-label="Interactive NINK network diagram">
+              <g class="network-lines-muted">
+                <line x1="200" y1="50" x2="330" y2="100" />
+                <line x1="330" y1="100" x2="370" y2="200" />
+                <line x1="370" y1="200" x2="330" y2="300" />
+                <line x1="330" y1="300" x2="200" y2="350" />
+                <line x1="200" y1="350" x2="70" y2="300" />
+                <line x1="70" y1="300" x2="30" y2="200" />
+                <line x1="30" y1="200" x2="70" y2="100" />
+                <line x1="70" y1="100" x2="200" y2="50" />
+                <line x1="200" y1="50" x2="200" y2="350" />
+                <line x1="30" y1="200" x2="370" y2="200" />
+              </g>
+              <g class="network-lines-active">
+                <line x1="200" y1="200" x2="200" y2="50" />
+                <line x1="200" y1="200" x2="330" y2="100" />
+                <line x1="200" y1="200" x2="370" y2="200" />
+                <line x1="200" y1="200" x2="330" y2="300" />
+                <line x1="200" y1="200" x2="200" y2="350" />
+                <line x1="200" y1="200" x2="70" y2="300" />
+                <line x1="200" y1="200" x2="30" y2="200" />
+                <line x1="200" y1="200" x2="70" y2="100" />
+              </g>
+              <g transform="translate(200,200)">
+                <circle r="42" class="network-hub-ring" />
+                <text text-anchor="middle" dominant-baseline="central" class="network-hub-label">NINK</text>
+              </g>
+              <g id="network-nodes"></g>
+            </svg>
+          </div>
+        </div>
+
+        <div id="context-panel" class="context-panel">
+          <p class="context-panel-default">
+            Hover over any network node to observe how multi-modal inputs map into the central NINK substrate.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -130,54 +161,6 @@
             <h3>NINK Enterprise</h3>
             <p>Human + AI knowledge systems for organizations.</p>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="network-section section-muted" aria-label="Interactive NINK network substrate">
-      <div class="section-inner">
-        <h2>Explore the network</h2>
-        <p class="section-lead">Hover any node to see how multi-modal inputs map into the central NINK substrate.</p>
-      </div>
-      <div class="network-grid">
-        <div class="network-diagram-wrap">
-          <div class="network-diagram">
-            <svg viewBox="0 0 400 400" role="img" aria-label="Interactive NINK network diagram">
-              <g class="network-lines-muted">
-                <line x1="200" y1="50" x2="330" y2="100" />
-                <line x1="330" y1="100" x2="370" y2="200" />
-                <line x1="370" y1="200" x2="330" y2="300" />
-                <line x1="330" y1="300" x2="200" y2="350" />
-                <line x1="200" y1="350" x2="70" y2="300" />
-                <line x1="70" y1="300" x2="30" y2="200" />
-                <line x1="30" y1="200" x2="70" y2="100" />
-                <line x1="70" y1="100" x2="200" y2="50" />
-                <line x1="200" y1="50" x2="200" y2="350" />
-                <line x1="30" y1="200" x2="370" y2="200" />
-              </g>
-              <g class="network-lines-active">
-                <line x1="200" y1="200" x2="200" y2="50" />
-                <line x1="200" y1="200" x2="330" y2="100" />
-                <line x1="200" y1="200" x2="370" y2="200" />
-                <line x1="200" y1="200" x2="330" y2="300" />
-                <line x1="200" y1="200" x2="200" y2="350" />
-                <line x1="200" y1="200" x2="70" y2="300" />
-                <line x1="200" y1="200" x2="30" y2="200" />
-                <line x1="200" y1="200" x2="70" y2="100" />
-              </g>
-              <g transform="translate(200,200)">
-                <circle r="42" class="network-hub-ring" />
-                <text text-anchor="middle" dominant-baseline="central" class="network-hub-label">NINK</text>
-              </g>
-              <g id="network-nodes"></g>
-            </svg>
-          </div>
-        </div>
-
-        <div id="context-panel" class="context-panel">
-          <p class="context-panel-default">
-            Hover over any network node to observe how multi-modal inputs map into the central NINK substrate.
-          </p>
         </div>
       </div>
     </section>
